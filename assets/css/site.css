@@ -196,3 +196,7 @@ html.dark-mode .pub-filter input { background: #1c1c1c; color: #eee; border-colo
     width: 100% !important; max-width: 100%; box-sizing: border-box; white-space: normal; overflow-wrap: normal;
   }
 }
+
+/* Breadcrumb: Vue drops the literal spaces the template puts around the › separator
+   ("Home›Activities"), so space it explicitly */
+.breadcrumb .bc-sep { display: inline-block; margin: 0 .55em; color: var(--muted, #6b7785); }
