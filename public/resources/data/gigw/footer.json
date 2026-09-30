@@ -1,0 +1,117 @@
+{
+  "aboutName": "DPSE, Goa",
+  "about": "The Directorate of Planning, Statistics & Evaluation is the nodal agency for statistical activities in the State of Goa — collection, compilation, dissemination and analysis of data for planning and decision making; national censuses and surveys; registration of births and deaths; and the State UID Registrar for Aadhaar.",
+  "owned": "Owned by: Directorate of Planning, Statistics & Evaluation, Government of Goa",
+  "social": [],
+  "importantLinks": [
+    {
+      "label": "About Us",
+      "href": "/about/"
+    },
+    {
+      "label": "Activities",
+      "href": "/activities/"
+    },
+    {
+      "label": "Births and Deaths",
+      "href": "/births-and-deaths/"
+    },
+    {
+      "label": "Censuses",
+      "href": "/censuses/"
+    },
+    {
+      "label": "Publications",
+      "href": "/publications/"
+    },
+    {
+      "label": "Org. Setup",
+      "href": "/organisational-setup/"
+    },
+    {
+      "label": "RTI",
+      "href": "/rti/"
+    },
+    {
+      "label": "Aadhaar",
+      "href": "/aadhaar/"
+    },
+    {
+      "label": "Tenders",
+      "href": "/tenders/"
+    },
+    {
+      "label": "Photo Gallery",
+      "href": "/gallery/"
+    },
+    {
+      "label": "Citizen Charter",
+      "href": "/citizen-charter/"
+    },
+    {
+      "label": "CSR Authority Goa",
+      "href": "/csr/"
+    }
+  ],
+  "governmentLinks": [
+    {
+      "label": "Government of Goa",
+      "href": "https://www.goa.gov.in",
+      "external": true
+    },
+    {
+      "label": "Government of India",
+      "href": "https://www.india.gov.in",
+      "external": true
+    },
+    {
+      "label": "Ministry of Statistics and Programme Implementation",
+      "href": "https://www.mospi.gov.in",
+      "external": true
+    },
+    {
+      "label": "Census of India",
+      "href": "https://censusindia.gov.in",
+      "external": true
+    },
+    {
+      "label": "NITI Aayog",
+      "href": "https://www.niti.gov.in",
+      "external": true
+    },
+    {
+      "label": "Birth & Death Certificates (rbd.goa.gov.in)",
+      "href": "https://rbd.goa.gov.in",
+      "external": true
+    }
+  ],
+  "webInformationManager": {
+    "name": "Director",
+    "role": "Directorate of Planning, Statistics & Evaluation",
+    "address": "Pandit Deendayal Upadhyay Bhavan, Behind Pundalik Devasthan, Pundalik Nagar, Alto-Porvorim, Bardez, Goa – 403521",
+    "phone": "+91-832-2417445",
+    "email": "dir-dpse.goa@nic.in"
+  },
+  "policiesBar": [
+    {
+      "label": "Citizen Charter",
+      "href": "/citizen-charter/"
+    },
+    {
+      "label": "Right to Information",
+      "href": "/rti/"
+    },
+    {
+      "label": "Related Links",
+      "href": "/related-links/"
+    }
+  ],
+  "copyrightYear": "2026",
+  "copyrightName": "Directorate of Planning, Statistics & Evaluation, Government of Goa",
+  "creditPrefix": "Website Designed & Developed by",
+  "credit": {
+    "label": "Appbuddy Consultancy LLP",
+    "href": "https://www.letsappit.com/",
+    "external": true
+  }
+}

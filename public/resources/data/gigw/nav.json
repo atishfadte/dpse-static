@@ -1,0 +1,77 @@
+[
+  {
+    "label": "Home",
+    "href": "/"
+  },
+  {
+    "label": "About Us",
+    "href": "/about/"
+  },
+  {
+    "label": "Activities",
+    "href": "/activities/"
+  },
+  {
+    "label": "Births and Deaths",
+    "href": "/births-and-deaths/"
+  },
+  {
+    "label": "Censuses",
+    "href": "/censuses/"
+  },
+  {
+    "label": "Publications",
+    "href": "/publications/"
+  },
+  {
+    "label": "Org. Setup",
+    "href": "/organisational-setup/"
+  },
+  {
+    "label": "RTI",
+    "href": "/rti/"
+  },
+  {
+    "label": "Aadhaar",
+    "href": "/aadhaar/"
+  },
+  {
+    "label": "Contact Us",
+    "href": "/contact/",
+    "pinned": true
+  },
+  {
+    "label": "Rel. Links",
+    "href": "/related-links/"
+  },
+  {
+    "label": "Photo Gallery",
+    "href": "/gallery/"
+  },
+  {
+    "label": "Citizen Charter",
+    "href": "/citizen-charter/"
+  },
+  {
+    "label": "CSR Authority Goa",
+    "href": "/csr/",
+    "children": [
+      {
+        "label": "About Us",
+        "href": "/csr/about/"
+      },
+      {
+        "label": "Projects",
+        "href": "/csr/projects/"
+      },
+      {
+        "label": "Gallery",
+        "href": "/csr/gallery/"
+      },
+      {
+        "label": "Contact Us",
+        "href": "/csr/contact/"
+      }
+    ]
+  }
+]

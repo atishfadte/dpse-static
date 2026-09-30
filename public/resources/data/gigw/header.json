@@ -1,0 +1,70 @@
+{
+  "skipLink": {
+    "href": "#main-content",
+    "label": "Skip to Main Content"
+  },
+  "accessibilityLinks": [
+    {
+      "href": "#main-content",
+      "icon": "fa-solid fa-arrow-right-to-bracket",
+      "label": "Skip to Main Content"
+    },
+    {
+      "href": "/related-links/",
+      "icon": "fa-solid fa-sitemap",
+      "label": "Related Links"
+    },
+    {
+      "href": "/rti/",
+      "icon": "fa-solid fa-universal-access",
+      "label": "RTI"
+    }
+  ],
+  "search": {
+    "action": "/search/",
+    "placeholder": "Search…",
+    "label": "Search the website"
+  },
+  "translate": {
+    "label": "Translate",
+    "ariaLabel": "Translate page",
+    "languages": [
+      {
+        "code": "en",
+        "name": "English",
+        "selectText": "English",
+        "checked": true
+      },
+      {
+        "code": "hi",
+        "lang": "hi",
+        "native": "हिंदी",
+        "name": "Hindi",
+        "selectText": "हिंदी"
+      },
+      {
+        "code": "kok",
+        "lang": "kok",
+        "native": "कोंकणी",
+        "name": "Konkani",
+        "selectText": "कोंकणी"
+      }
+    ]
+  },
+  "brand": {
+    "href": "/",
+    "ariaLabel": "Directorate of Planning, Statistics & Evaluation — Home",
+    "logo": "/resources/assets/media/shared/govt-of-goa-logo.png",
+    "logoAlt": "Government of Goa emblem",
+    "logoWidth": "84",
+    "logoHeight": "84",
+    "title": "Directorate of Planning, Statistics & Evaluation",
+    "sub": "Government of Goa · नियोजन, सांख्यिकी आणि मूल्यमापन संचालनालय"
+  },
+  "emblems": [
+    {
+      "src": "/resources/assets/media/shared/emblem-of-india.png",
+      "alt": "Emblem of India"
+    }
+  ]
+}

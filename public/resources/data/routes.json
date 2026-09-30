@@ -1,0 +1,26 @@
+{
+  "routes": [
+    "/",
+    "/about/",
+    "/activities/",
+    "/organisational-setup/",
+    "/citizen-charter/",
+    "/publications/",
+    "/censuses/",
+    "/births-and-deaths/",
+    "/aadhaar/",
+    "/rti/",
+    "/tenders/",
+    "/csr/",
+    "/csr/about/",
+    "/csr/projects/",
+    "/csr/gallery/",
+    "/csr/contact/",
+    "/gallery/",
+    "/gallery/statistics-day-2009/",
+    "/related-links/",
+    "/contact/",
+    "/search/",
+    "/404/"
+  ]
+}

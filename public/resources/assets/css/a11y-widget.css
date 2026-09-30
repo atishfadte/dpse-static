@@ -1,0 +1,177 @@
+/* =============================================================================
+   Accessibility Widget (SGA11y) — OUR OWN implementation.
+
+   A self-contained floating accessibility widget in the studio's OWN namespace
+   (.sgw-* / #sgw-* / window.SGA11y). It reverse-engineers the LOOK and FEATURE SET
+   of the Govt-of-India UX4G accessibility widget (floating Ctrl+F2 launcher → slide-in
+   panel of feature cards) but is written from scratch here — no upstream code, no
+   external CDN, no framework. Every effect is a class / CSS-variable on <html> so it is
+   scoped away from the widget's own UI (":not(.sgw *)").
+
+   Pairs with assets/js/a11y-widget.js. Font: assets/fonts/open-dyslexic.woff.
+   ============================================================================= */
+
+/* OpenDyslexic — used only by the "Dyslexia friendly" toggle. */
+@font-face {
+  font-family: 'SGDyslexic';
+  src: url('../fonts/open-dyslexic.woff') format('woff');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+
+/* ---- design tokens (the UX4G-like purple) ---- */
+:root {
+  --sgw-purple: #5b3fc4;
+  --sgw-purple-2: #7a52e0;
+  --sgw-ink: #1c1b2e;
+  --sgw-line: #e6e3f2;
+  --sgw-soft: #f4f1fd;
+  --sgw-active: #eee7ff;
+  --sgw-white: #fff;
+  --sgw-shadow: 0 12px 40px rgba(22, 15, 60, .28);
+}
+
+/* ============================ Launcher (FAB) ============================ */
+/* Launcher = a rounded button showing the accessibility icon + the FULL keyboard shortcut
+   below it, like the UX4G launcher. Auto-width so the whole shortcut fits (Ctrl+F2 on
+   Windows, Ctrl+Shift+A on Mac) — no truncation. Subtle lift on hover. */
+.sgw-launch {
+  position: fixed; right: 22px; bottom: 22px; z-index: 2147483000;
+  width: 72px; height: 72px; border: 0; border-radius: 50%;
+  background: linear-gradient(150deg, var(--sgw-purple-2), var(--sgw-purple));
+  color: #fff; cursor: pointer; box-shadow: var(--sgw-shadow);
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 0;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.sgw-launch:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 16px 46px rgba(22, 15, 60, .36); }
+.sgw-launch:focus-visible { outline: 3px solid #ffd23f; outline-offset: 3px; }
+.sgw-ic { display: inline-flex; align-items: center; justify-content: center; }
+.sgw-launch svg { width: 26px; height: 26px; display: block; fill: #fff; }
+.sgw-launch-key {
+  font: 700 7px/1 system-ui, sans-serif; letter-spacing: .01em; color: #fff !important;
+  background: rgba(255, 255, 255, .24); border-radius: 5px; padding: 2px 4px; white-space: nowrap;
+}
+
+/* ============================ Panel ============================ */
+.sgw-panel {
+  position: fixed; top: 0; right: 0; z-index: 2147483001;
+  width: 392px; max-width: 100vw; height: 100vh; height: 100dvh;
+  background: #f6f5fb; color: var(--sgw-ink);
+  box-shadow: var(--sgw-shadow); display: flex; flex-direction: column;
+  /* Closed: off-screen AND visibility:hidden so it is NOT tabbable / not in the a11y tree.
+     visibility flips to hidden only AFTER the slide-out finishes (delay = the transform time),
+     and to visible immediately on open — so the slide still animates both ways. */
+  transform: translateX(100%); visibility: hidden;
+  transition: transform .28s cubic-bezier(.4, 0, .2, 1), visibility 0s linear .28s;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.sgw-panel.sgw-open { transform: translateX(0); visibility: visible; transition: transform .28s cubic-bezier(.4, 0, .2, 1), visibility 0s linear 0s; }
+
+.sgw-head {
+  background: linear-gradient(120deg, var(--sgw-purple), var(--sgw-purple-2));
+  color: #fff; padding: 16px 18px; display: flex; align-items: center; gap: 10px; flex: 0 0 auto;
+}
+/* color:#fff !important — the host theme's global `h2 { color }` rule otherwise wins over
+   inheritance and renders the title dark-on-purple (unreadable). */
+.sgw-head h2 { margin: 0; font-size: 1.12rem; font-weight: 700; color: #fff !important; display: flex; align-items: center; gap: 9px; flex: 1; }
+.sgw-key { font: 700 11px/1 system-ui; background: #efe7ff; color: var(--sgw-purple); border-radius: 20px; padding: 4px 9px; }
+.sgw-close {
+  width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .16);
+  color: #fff; cursor: pointer; font-size: 20px; line-height: 1; display: inline-flex; align-items: center; justify-content: center;
+}
+.sgw-close:hover { background: rgba(255, 255, 255, .3); }
+.sgw-close:focus-visible { outline: 2px solid #ffd23f; outline-offset: 2px; }
+
+.sgw-body { flex: 1; overflow-y: auto; padding: 16px; }
+
+.sgw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.sgw-item {
+  background: var(--sgw-white); border: 1.5px solid var(--sgw-line); border-radius: 12px;
+  padding: 14px 8px 12px; cursor: pointer; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 8px; min-height: 96px; justify-content: center;
+  color: var(--sgw-ink); font: inherit; transition: border-color .12s, background .12s, box-shadow .12s;
+}
+.sgw-item:hover { border-color: var(--sgw-purple-2); box-shadow: 0 4px 14px rgba(91, 63, 196, .14); }
+.sgw-item:focus-visible { outline: 2px solid var(--sgw-purple); outline-offset: 2px; }
+.sgw-item svg { width: 34px; height: 34px; fill: var(--sgw-ink); }
+.sgw-item-name { font-size: .84rem; font-weight: 600; line-height: 1.2; }
+.sgw-item[aria-pressed="true"] { background: var(--sgw-active); border-color: var(--sgw-purple); box-shadow: inset 0 0 0 1px var(--sgw-purple); }
+.sgw-item[aria-pressed="true"] svg { fill: var(--sgw-purple); }
+.sgw-item[aria-pressed="true"] .sgw-item-name { color: var(--sgw-purple); }
+
+/* step dots (Bigger text / spacing / line-height / saturation) */
+.sgw-steps { display: flex; gap: 4px; margin-top: 1px; }
+.sgw-steps i { width: 16px; height: 4px; border-radius: 3px; background: var(--sgw-line); display: block; }
+.sgw-item[aria-pressed="true"] .sgw-steps i.on { background: var(--sgw-purple); }
+
+.sgw-foot {
+  flex: 0 0 auto; padding: 14px 16px; border-top: 1px solid var(--sgw-line);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #f6f5fb;
+}
+.sgw-reset {
+  border: 0; background: #efe7ff; color: var(--sgw-purple); font-weight: 700; font-size: .9rem;
+  padding: 10px 16px; border-radius: 24px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+}
+.sgw-reset:hover { background: #e2d6ff; }
+.sgw-reset:focus-visible { outline: 2px solid var(--sgw-purple); outline-offset: 2px; }
+.sgw-reset svg { width: 15px; height: 15px; fill: currentColor; }
+.sgw-credit { font-size: .72rem; color: #6a6786; }
+.sgw-credit b { color: var(--sgw-purple); }
+
+/* ============================ Feature EFFECTS (scoped away from the widget) ============================ */
+/* the widget's own UI is always excluded via :not(.sgw *):not(.sgw-launch):not(.sgw-launch *) */
+
+/* Bigger / Smaller text — zoom block text containers (siblings, so no compounding). */
+html.sgw-textadj :is(p, li, dt, dd, td, th, h1, h2, h3, h4, h5, h6, blockquote, figcaption, summary):not(.sgw-panel *):not(.sgw-launch *) {
+  zoom: var(--sgw-textz, 1);
+}
+/* Line height */
+html.sgw-lineadj :is(p, li, dd, blockquote, td, th):not(.sgw-panel *):not(.sgw-launch *) {
+  line-height: var(--sgw-lh, 1.5) !important;
+}
+/* Text spacing */
+html.sgw-spaceadj :is(p, li, dd, blockquote, td, th, h1, h2, h3, h4, h5, h6, a, span):not(.sgw-panel *):not(.sgw-launch *) {
+  letter-spacing: var(--sgw-ls, 0) !important; word-spacing: var(--sgw-ws, 0) !important;
+}
+/* Dyslexia-friendly font (leave icon fonts alone) */
+html.sgw-dyslexia body :is(p, li, dt, dd, td, th, h1, h2, h3, h4, h5, h6, a, span, label, button, blockquote, figcaption, summary, input, textarea):not(.sgw-panel *):not(.sgw-launch *):not([class*="fa-"]):not(.fa):not(i) {
+  font-family: 'SGDyslexic', 'Comic Sans MS', sans-serif !important; letter-spacing: .03em;
+}
+/* Highlight links */
+html.sgw-hlinks a[href]:not(.sgw-panel *):not(.sgw-launch *):not(.sgw-launch) {
+  outline: 2px solid #b35900 !important; outline-offset: 1px; background: #fff2cc !important; color: #17324d !important; text-decoration: underline !important;
+}
+/* Cursor (large) */
+html.sgw-cursor, html.sgw-cursor * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M6 3l30 18-12 3 6 15-6 3-6-15-9 9z' fill='%23000' stroke='%23fff' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 4 3, auto !important; }
+/* Hide images (keep logos/emblems) */
+html.sgw-hideimg img:not([class*="logo"]):not([class*="emblem"]):not([class*="brand"]):not(.sgw-panel *):not(.sgw-launch *) { visibility: hidden !important; }
+/* Pause animations */
+html.sgw-pauseanim *:not(.sgw-panel):not(.sgw-panel *):not(.sgw-launch):not(.sgw-launch *) { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+/* Saturation + invert — composed into one filter var on <html> (the widget UI is a child, so it is filtered too, like UX4G). */
+html.sgw-filter { filter: var(--sgw-filter, none); }
+
+/* ADHD reading strip — a movable clear band; the rest of the page is dimmed. */
+.sgw-adhd-mask { position: fixed; left: 0; right: 0; z-index: 2147482000; pointer-events: none; background: rgba(0, 0, 0, .55); }
+.sgw-adhd-top { top: 0; }
+.sgw-adhd-bot { bottom: 0; }
+
+/* ============================ Dark mode (the widget itself) ============================ */
+html.dark-mode .sgw-panel, .s3-dark .sgw-panel, html.sgw-darkpanel .sgw-panel { background: #14131c; color: #f2f0fb; }
+html.dark-mode .sgw-foot, .s3-dark .sgw-foot { background: #14131c; border-top-color: #2a2740; }
+html.dark-mode .sgw-item, .s3-dark .sgw-item { background: #201d2e; border-color: #322e47; color: #f2f0fb; }
+html.dark-mode .sgw-item svg, .s3-dark .sgw-item svg { fill: #e9e5fb; }
+html.dark-mode .sgw-item:hover, .s3-dark .sgw-item:hover { border-color: var(--sgw-purple-2); }
+html.dark-mode .sgw-item[aria-pressed="true"], .s3-dark .sgw-item[aria-pressed="true"] { background: #2c2350; border-color: #ffd23f; box-shadow: inset 0 0 0 1px #ffd23f; }
+html.dark-mode .sgw-item[aria-pressed="true"] svg, .s3-dark .sgw-item[aria-pressed="true"] svg { fill: #ffd23f; }
+html.dark-mode .sgw-item[aria-pressed="true"] .sgw-item-name, .s3-dark .sgw-item[aria-pressed="true"] .sgw-item-name { color: #ffd23f; }
+html.dark-mode .sgw-credit, .s3-dark .sgw-credit { color: #a49fc4; }
+html.dark-mode .sgw-reset, .s3-dark .sgw-reset { background: #2c2350; color: #ffd23f; }
+
+/* ============================ Responsive ============================ */
+@media (max-width: 460px) {
+  .sgw-panel { width: 100vw; }
+  .sgw-grid { grid-template-columns: repeat(2, 1fr); }
+  .sgw-launch { right: 14px; bottom: 14px; width: 64px; height: 64px; padding: 0; }
+  .sgw-launch svg { width: 23px; height: 23px; }
+}
+@media print { .sgw-launch, .sgw-panel, .sgw-adhd-mask { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { .sgw-panel { transition: none; } .sgw-launch { transition: none; } }

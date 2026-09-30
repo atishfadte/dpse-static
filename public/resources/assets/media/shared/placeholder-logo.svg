@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84" role="img" aria-label="Logo placeholder">
+  <rect width="84" height="84" rx="12" fill="#1a3a6b"/>
+  <circle cx="42" cy="42" r="26" fill="none" stroke="#f5a623" stroke-width="5"/>
+  <text x="42" y="50" font-family="Segoe UI, Roboto, system-ui, sans-serif" font-size="22" font-weight="800" fill="#fff" text-anchor="middle">L</text>
+</svg>

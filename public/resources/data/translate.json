@@ -1,0 +1,11 @@
+{
+  "_README": "Bhashini Website Translation Plugin (v3). Driven by attributes on its <script> tag (data-bhashini, language_order, translation-language-list). Lazy-loaded by includes.js on first Translate click. Only translates on a Bhashini-registered domain.",
+  "provider": "bhashini",
+  "enabled": true,
+  "mode": "plugin-v3",
+  "loadOn": "translate-click",
+  "scriptUrl": "https://translation-plugin.bhashini.co.in/v3/website_translation_utility.js",
+  "containerId": "bhashini-translation-plugin",
+  "languageOrder": "gom,hi,en",
+  "translationLanguageList": "gom,hi,en"
+}

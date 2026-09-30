@@ -1,0 +1,191 @@
+/* DPSE Goa — small site-specific additions on top of the GIGW template CSS.
+   The design system (colors, chrome, components, dark mode) comes entirely from
+   /resources/assets/css/style.css (Gigw-template-2.0); keep this file minimal. */
+
+/* Home intro section */
+.dpse-intro { padding: 2rem 0 0.5rem; }
+.dpse-intro .lead { max-width: 62rem; }
+
+/* Home: full-width banner slider (HeroSlider.vue) sitting flush under the nav */
+.is-home .page-body { padding-top: 0; }
+.dpse-slider { position: relative; width: 100%; height: clamp(300px, 58vh, 600px); overflow: hidden; background: var(--navy-deep, #062c66); }
+.dpse-slides, .dpse-slide { position: absolute; inset: 0; }
+.dpse-slide { opacity: 0; visibility: hidden; transition: opacity .8s ease, visibility 0s linear .8s; }
+.dpse-slide.is-active { opacity: 1; visibility: visible; transition: opacity .8s ease; }
+.dpse-slide-bg {
+  position: absolute; inset: -40px; background-size: cover; background-position: center;
+  filter: blur(26px) saturate(1.15) brightness(.55); transform: scale(1.08);
+}
+.dpse-slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6, 22, 48, .15) 0%, rgba(6, 22, 48, .55) 100%); pointer-events: none; }
+.dpse-slide-media { position: absolute; inset: 24px 24px 70px; display: flex; align-items: center; justify-content: center; z-index: 1; }
+.dpse-slide-media img {
+  display: block; max-width: 100%; max-height: 100%; width: auto; height: auto;
+  border-radius: 12px; box-shadow: 0 18px 50px rgba(0, 0, 0, .45);
+}
+.dpse-slide.is-active .dpse-slide-media img { animation: dpse-kenburns 6.5s ease-out both; }
+@keyframes dpse-kenburns { from { transform: scale(1.04); } to { transform: scale(1); } }
+.dpse-slide-caption { position: absolute; left: 0; right: 0; bottom: 18px; margin: 0; z-index: 2; text-align: center; }
+.dpse-slide-caption span {
+  display: inline-block; color: #fff; font-weight: 600; font-size: 1rem; padding: 6px 16px; border-radius: 999px;
+  background: rgba(6, 22, 48, .55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+}
+/* prev / pause / next pill, top-right (as on dpg.goa.gov.in) */
+.dpse-slider-controls {
+  position: absolute; top: 18px; right: 22px; z-index: 3; display: flex; gap: 6px; padding: 5px;
+  border-radius: 999px; background: rgba(6, 22, 48, .6); border: 1px solid rgba(255, 255, 255, .35);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.dpse-slider-controls button {
+  width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .85);
+  background: transparent; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: .85rem;
+}
+.dpse-slider-controls button:hover, .dpse-slider-controls button:focus-visible { background: #fff; color: var(--navy, #0d47a1); outline: none; }
+.dpse-slider-dots { position: absolute; left: 50%; bottom: 58px; transform: translateX(-50%); z-index: 3; display: flex; gap: 8px; }
+.dpse-slider-dots button { width: 10px; height: 10px; padding: 0; border-radius: 999px; border: 0; background: rgba(255, 255, 255, .5); cursor: pointer; transition: width .3s ease, background .3s ease; }
+.dpse-slider-dots button.is-active { width: 26px; background: #fff; }
+.dpse-slider-dots button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (max-width: 600px) {
+  .dpse-slider { height: 260px; }
+  .dpse-slide-media { inset: 14px 12px 56px; }
+  .dpse-slider-controls { top: 10px; right: 10px; }
+  .dpse-slider-controls button { width: 30px; height: 30px; }
+  .dpse-slider { height: 290px; }
+  .dpse-slide-media { inset: 14px 12px 84px; }
+  .dpse-slide-caption { bottom: 12px; padding: 0 12px; }
+  .dpse-slide-caption span { font-size: .8rem; line-height: 1.35; padding: 5px 12px; border-radius: 12px; }
+  .dpse-slider-dots { bottom: auto; top: calc(100% - 78px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dpse-slide, .dpse-slide.is-active { transition: none; }
+  .dpse-slide.is-active .dpse-slide-media img { animation: none; }
+}
+
+/* Photo gallery grid + viewer (PhotoGallery.vue) */
+.dpse-photo-grid { list-style: none; padding: 0; margin: 1.5rem 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.dpse-photo-tile {
+  display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; cursor: zoom-in; overflow: hidden;
+  background: #fff; border: 1px solid var(--line, #dde3ec); border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(13, 44, 84, .08); transition: transform .2s ease, box-shadow .2s ease;
+}
+.dpse-photo-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+.dpse-photo-tile:hover, .dpse-photo-tile:focus-visible { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(13, 44, 84, .18); }
+.dpse-photo-tile:hover img { transform: scale(1.05); }
+.dpse-photo-tile:focus-visible { outline: 3px solid var(--saffron, #1565c0); outline-offset: 2px; }
+.dpse-viewer figure { display: flex; flex-direction: column; align-items: center; padding: 0 76px; }
+.dpse-viewer img { max-width: 100%; max-height: 80vh; object-fit: contain; box-shadow: 0 10px 40px rgba(0, 0, 0, .5); background: #fff; }
+.dpse-viewer figcaption { display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.dpse-viewer-count { font-size: .85rem; opacity: .8; padding: 2px 10px; border: 1px solid rgba(255, 255, 255, .35); border-radius: 999px; }
+.dpse-viewer .ilb-btn { display: flex; align-items: center; justify-content: center; z-index: 2; }
+.dpse-viewer .ilb-btn:hover, .dpse-viewer .ilb-btn:focus-visible { background: rgba(255, 255, 255, .3); outline: 2px solid #fff; }
+@media (max-width: 600px) {
+  .dpse-photo-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .dpse-viewer figure { padding: 0 8px; }
+  .dpse-viewer .ilb-prev, .dpse-viewer .ilb-next { top: auto; bottom: 18px; transform: none; }
+}
+html.dark-mode .dpse-photo-tile { background: #111; border-color: rgba(255, 255, 255, .2); }
+
+/* Album cards on the Photo Gallery landing page */
+.dpse-albums { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; margin: 1.5rem 0; }
+.dpse-album { padding: 0; overflow: hidden; }
+.dpse-album img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+.dpse-album-body { padding: 14px 18px 18px; }
+.dpse-album-body h2 { font-size: 1.1rem; margin: 0 0 6px; }
+.dpse-album-body p { margin: 0; }
+
+/* Leadership / officer cards on the CSR landing page */
+.dpse-people { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+
+/* Feature-card icon badges (navy rounded square, white glyph) */
+.dpse-feature-ico {
+  flex: 0 0 auto; width: 60px; height: 60px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+  color: #fff; font-size: 1.45rem;
+}
+html.dark-mode .dpse-feature-ico { background: var(--navy-deep); }
+
+/* Footer bottom bar: visitor counter on the RIGHT, level with the copyright line */
+@media (min-width: 900px) {
+  .footer-bottom-bar { flex-wrap: nowrap; }
+  .footer-bottom-left { flex: 1 1 auto; min-width: 0; }
+  .footer-countbox {
+    flex: 0 0 auto; margin-left: auto; align-self: center;
+    flex-direction: row; align-items: center; gap: 10px;
+  }
+}
+
+/* Publications filter box */
+.pub-filter { margin: 1rem 0 1.5rem; max-width: 30rem; }
+.pub-filter input {
+  width: 100%; padding: .6rem .9rem; font: inherit;
+  border: 1px solid rgba(0, 0, 0, .25); border-radius: 6px;
+}
+.pub-group-h { margin-top: 2rem; }
+
+html.dark-mode .pub-filter input { background: #1c1c1c; color: #eee; border-color: rgba(255, 255, 255, .3); }
+
+/* Home intro action buttons: inline on desktop, equal full-width stack on phones */
+.dpse-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 1rem 0 0; }
+@media (max-width: 600px) {
+  .dpse-actions { flex-direction: column; }
+  .dpse-actions .btn { width: 100%; justify-content: center; text-align: center; margin: 0; }
+}
+
+/* Mobile masthead: full department title centred on top, then BOTH emblems
+   (Government of Goa + Emblem of India) side by side, centred, below the text.
+   .brand becomes display:contents so its logo can share a grid row with the
+   emblems block; the link still wraps the logo + title and stays focusable. */
+@media (max-width: 760px) {
+  .masthead .masthead-inner {
+    display: grid; grid-template-columns: auto auto; justify-content: center;
+    column-gap: 28px; row-gap: 14px; padding: 18px 18px 16px; text-align: center;
+  }
+  .masthead .brand { display: contents; }
+  .masthead .brand-text { grid-column: 1 / -1; grid-row: 1; align-items: center; }
+  .masthead .brand-title { font-size: 1.3rem; line-height: 1.2; }
+  .masthead .brand-sub { font-size: .82em; line-height: 1.4; margin-top: 2px; }
+  .masthead .brand-logo { grid-column: 1; grid-row: 2; justify-self: end; width: 56px; height: 56px; }
+  .masthead .masthead-emblems {
+    grid-column: 2; grid-row: 2; justify-self: start; width: auto;
+    border-top: 0; padding: 0; gap: 0;
+  }
+  .masthead .masthead-emblems .emblem { height: 56px; }
+}
+@media (max-width: 380px) {
+  .masthead .brand-title { font-size: 1.14rem; }
+  .masthead .brand-logo, .masthead .masthead-emblems .emblem { height: 50px; }
+  .masthead .brand-logo { width: 50px; }
+}
+
+/* Mobile footer: same 18px side inset as the page content, tighter heading
+   spacing, and the long link lists in two columns */
+@media (max-width: 760px) {
+  .site-footer .footer-grid { padding: 36px 18px 8px; gap: 28px; }
+  .site-footer .footer-policies-inner,
+  .site-footer .footer-bottom-bar { padding-left: 18px; padding-right: 18px; }
+  .site-footer .footer-h { margin-bottom: 14px; }
+  .site-footer .footer-col p { margin: 0 0 10px; line-height: 1.6; }
+  .site-footer .footer-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 16px; row-gap: 2px; }
+  .site-footer .footer-list li { margin: 0; }
+  .site-footer .footer-list a { display: inline-block; padding: 5px 0; }
+}
+
+/* Download tables on phones (DocList): one card per row — number, title, then a
+   full-width Download button. Scoped + !important because the template's generic
+   stack-sm rules (label::before at 46%, desktop td:last-child{width:1%},
+   td a{overflow-wrap:anywhere}) otherwise mangle the button cell. */
+@media (max-width: 760px) {
+  .dpse-doclist .data-table.stack-sm td {
+    display: block !important; width: 100% !important; min-width: 0 !important;
+    border: 0 !important; padding: 4px 0 !important; white-space: normal !important; text-align: left !important;
+  }
+  .dpse-doclist .data-table.stack-sm td::before { content: none !important; }
+  /* main.js adds per-cell .gv-celllabel spans (Sr No / Title / Download) — redundant on these cards */
+  .dpse-doclist .data-table.stack-sm td .gv-celllabel { display: none !important; }
+  .dpse-doclist .data-table.stack-sm td:first-child { font-weight: 700; color: var(--navy, #0d47a1); font-size: .85rem; }
+  .dpse-doclist .data-table.stack-sm td:nth-child(2) { font-size: .95rem; line-height: 1.45; padding-bottom: 10px !important; }
+  .dpse-doclist .data-table.stack-sm td .dl-btn {
+    display: flex !important; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 8px;
+    width: 100% !important; max-width: 100%; box-sizing: border-box; white-space: normal; overflow-wrap: normal;
+  }
+}
