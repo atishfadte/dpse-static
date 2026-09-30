@@ -128,7 +128,14 @@ html.dark-mode .pub-filter input { background: #1c1c1c; color: #eee; border-colo
 .dpse-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 1rem 0 0; }
 @media (max-width: 600px) {
   .dpse-actions { flex-direction: column; }
-  .dpse-actions .btn { width: 100%; justify-content: center; text-align: center; margin: 0; }
+  .dpse-actions .btn {
+    width: 100%; margin: 0; box-sizing: border-box;
+    /* identical size for all three: one line, fixed height, text scales down on very narrow phones */
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    height: 52px; min-height: 52px; padding: 0 14px; white-space: nowrap; line-height: 1;
+    font-size: clamp(.8rem, 4vw, 1rem); text-align: center;
+  }
+  .dpse-actions .btn .ext-ico { display: inline; margin: 0; }
 }
 
 /* Mobile masthead: full department title centred on top, then BOTH emblems
